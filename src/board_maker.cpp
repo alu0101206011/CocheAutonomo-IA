@@ -1,5 +1,4 @@
 #include "../include/board_maker.hpp"
-//#include "../include/board.hpp"
 
 void BoardMakerFrontend::Menu(){
     std::string file;
@@ -47,18 +46,9 @@ void BoardMakerFrontend::CreateNewMap(std::string &FileName) {
     std::cout << "¿Qué altura debe tener el tablero? ";
     std::cin >> height;
     Board MAP(wide,height);
-    
-    mapfile << wide << " " << height << std::endl;
-    std::vector<std::vector<int>> map(wide, std::vector<int>(height,0));
 
-    for (int i = 0; i < wide; i++) {
-        map[i][0] = 1;
-        map[i][height-1] = 1;
-    }
-    for (int i = 0; i < height; i++) {
-        map[0][i] = 1;
-        map[wide-1][i] = 1;
-    }
+    mapfile << MAP.GetM() << std::endl << MAP.GetN() << std::endl;
+    std::vector<std::vector<int>> map(wide, std::vector<int>(height,0));
 
     for (int i = 0; i < height; i++) { 
         for (int j = 0; j < wide; j++) {  

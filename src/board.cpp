@@ -3,7 +3,10 @@
 Board::Board() {
     M_ = 0;
     N_ = 0;
-    MatrixInt map(M_+2, std::vector<int>(N_+2,0));
+    MatrixState map;
+    for (int i = 0; i < M_+2; i++) {
+        map.resize(N_+2);
+    }
     MatrixBoard_= map;
     for (int i = 0; i < N_; i++) {
         ChangeState(i,0,Wall);
@@ -18,7 +21,10 @@ Board::Board() {
 Board::Board(int M,int N) {
     M_ = M;
     N_ = N;
-    MatrixInt map(M_+2, std::vector<int>(N_+2,0));
+    MatrixState map;
+    for (int i = 0; i < M_+2; i++) {
+        map.resize(N_+2);
+    }
     MatrixBoard_= map;
     for (int i = 0; i < N_; i++) {
         ChangeState(i,0,Wall);
@@ -38,6 +44,10 @@ int Board::GetM() const {
 
 int Board::GetN() const {
     return N_;
+}
+
+state Board::GetState(int x, int y) {
+    return MatrixBoard_[x][y];
 }
 
 void Board::ChangeState(int x, int y, state newstate) {
