@@ -3,7 +3,7 @@
 Board::Board() {
     M_ = 0;
     N_ = 0;
-    MatrixInt map(M_, std::vector<int>(N_));
+    MatrixInt map(M_+2, std::vector<int>(N_+2,0));
     MatrixBoard_= map;
 }
 
