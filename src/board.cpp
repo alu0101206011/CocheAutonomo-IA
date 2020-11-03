@@ -5,6 +5,14 @@ Board::Board() {
     N_ = 0;
     MatrixInt map(M_+2, std::vector<int>(N_+2,0));
     MatrixBoard_= map;
+    for (int i = 0; i < N_; i++) {
+        ChangeState(i,0,Wall);
+        ChangeState(i,M_+1,Wall);
+    }
+    for (int i = 0; i < M_; i++) {
+        ChangeState(0,i,Wall);
+        ChangeState(N_+1,i,Wall);
+    }
 }
 
 Board::Board(int M,int N) {
