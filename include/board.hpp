@@ -11,8 +11,9 @@ class Board {
 
 public:
 
-    Board();
-    Board(std::string);
+    Board(); //Constructor por defecto
+    Board(int,int); //Pasando M y N
+    Board(std::string); //Abrir de fichero
     ~Board();
     
     int GetM() const;

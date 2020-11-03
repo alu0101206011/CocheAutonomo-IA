@@ -1,7 +1,7 @@
 #include "../include/board_maker.hpp"
 //#include "../include/board.hpp"
 
-void board_maker(){
+void BoardMakerFrontend::Menu(){
     std::string file;
     int option;
     std::cin >> option;
@@ -37,16 +37,17 @@ void board_maker(){
     }
 }
 
-void CreateNewMap(std::string &FileName) {
+void BoardMakerFrontend::CreateNewMap(std::string &FileName) {
     std::ofstream mapfile;
     mapfile.open(FileName);
+    
     int height, wide;
-    std::cout << "¿Qué altura debe tener el tablero? ";
-    std::cin >> height;
-    height+=2;
     std::cout << "¿Qué anchura debe tener el tablero? ";
     std::cin >> wide;
-    wide+=2;
+    std::cout << "¿Qué altura debe tener el tablero? ";
+    std::cin >> height;
+    Board MAP(wide,height);
+    
     mapfile << wide << " " << height << std::endl;
     std::vector<std::vector<int>> map(wide, std::vector<int>(height,0));
 
