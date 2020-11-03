@@ -13,12 +13,12 @@ Board::Board(int M,int N) {
     MatrixInt map(M_+2, std::vector<int>(N_+2,0));
     MatrixBoard_= map;
     for (int i = 0; i < N_; i++) {
-        map[i][0] = 1;
-        map[i][M_+1] = 1;
+        ChangeState(i,0,Wall);
+        ChangeState(i,M_+1,Wall);
     }
     for (int i = 0; i < M_; i++) {
-        map[0][i] = 1;
-        map[N_+1][i] = 1;
+        ChangeState(0,i,Wall);
+        ChangeState(N_+1,i,Wall);
     }
 }
 
