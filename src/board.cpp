@@ -24,10 +24,14 @@ Board::Board(int M,int N) {
 
 Board::Board(std::string filename) {}
 
-int Board::GetM() const{
+int Board::GetM() const {
     return M_;
 }
 
-int Board::GetN() const{
+int Board::GetN() const {
     return N_;
+}
+
+void Board::ChangeState(int x, int y, state newstate) {
+    MatrixBoard_[x][y] = newstate;
 }
