@@ -46,10 +46,92 @@ int Board::GetN() const {
     return N_;
 }
 
-state Board::GetState(int x, int y) {
+state Board::GetState(int x, int y) const {
     return MatrixBoard_[x][y];
 }
 
 void Board::ChangeState(int x, int y, state newstate) {
     MatrixBoard_[x][y] = newstate;
 }
+
+void Board::Write(std::ostream &os, writemode mode) const {
+    if (mode == file) {
+        os << GetM() << std::endl << GetN() << std::endl;
+        for (int i = 0; i < GetN() + 1; i++) { 
+            for (int j = 0; j < GetM() + 1; j++) {  
+                os << GetState(i,j);
+                if (j != GetM() + 1) { 
+                    os << " ";
+                }
+            }
+            if (i != GetN() + 1) { 
+                os << std::endl;
+            }
+        }
+    } else if (mode == terminalicons) {
+        for (int i = 0; i < GetN() + 1; i++) { 
+            for (int j = 0; j < GetM() + 1; j++) {  
+                switch (GetState(i,j))
+                {
+                case ClearPath:
+                    os << "⬜" ;
+                    break;
+                case Wall:
+                    os << "🧱" ;
+                    break;
+                case Obstacle:
+                    os << "🚧" ;
+                    break;
+                case Car:
+                    os << "🚗" ;
+                    break;
+                case Finish:
+                    os << "🏁";
+                    break;
+                default:
+                    os << "❓";
+                    break;
+                }
+            }
+            if (i != GetN() + 1) { 
+                os << std::endl;
+            }
+        }
+    } else if (mode == terminalcords) {
+        
+        for (int i = 0; i < GetN() + 1; i++) { 
+            for (int j = 0; j < GetM() + 1; j++) {  
+                switch (GetState(i,j))
+                {
+                case ClearPath:
+                    os << YELLOW;
+                    break;
+                case Wall:
+                    os << BLACK;
+                    break;
+                case Obstacle:
+                    os << GREEN;
+                    break;
+                case Car:
+                    os << CYAN;
+                    break;
+                case Finish:
+                    os << RED;
+                    break;
+                default:
+                    os << WHITE;
+                    break;
+                }
+                os << "(" << GetM() << "," << GetN() << ")" << RESET;
+            }
+            if (i != GetN() + 1) { 
+                os << std::endl;
+            }
+        }
+    } else {
+        os << "Write mode is invalid or something went wrong";
+    }
+}
+
+
+
