@@ -21,6 +21,7 @@ typedef std::vector<std::vector<state>> MatrixState;
 
 class Board {
 
+    bool Valid;
     int M_; //Ancho
     int N_; //Alto
     MatrixState MatrixBoard_; 
@@ -36,6 +37,7 @@ public:
     int GetN() const;
     state GetState(int,int) const;
     void ChangeState(int,int,state);
+    void CheckMap();
 
     void Write(std::ostream &os, writemode) const;
 };

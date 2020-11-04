@@ -1,6 +1,7 @@
 #include "../include/board.hpp"
 
 Board::Board() {
+    Valid = false;
     M_ = 0;
     N_ = 0;
     MatrixState map;
@@ -19,6 +20,7 @@ Board::Board() {
 }
 
 Board::Board(int M,int N) {
+    Valid = false;
     M_ = M;
     N_ = N;
     MatrixState map;
