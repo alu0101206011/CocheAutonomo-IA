@@ -14,5 +14,4 @@ class BoardMakerFrontend {
 
 };
 
-void ModifyMap(std::string&);
 int IntroducePos(const int, const int, const int, std::vector<std::vector<int>>&);

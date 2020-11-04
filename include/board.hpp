@@ -2,8 +2,12 @@
 #include <string>
 #include <iostream>
 
-typedef std::vector<std::vector<state>> MatrixState;
+class BoardMakerFrontend;
+
 enum state {ClearPath, Wall, Obstacle, Car, Finish}; //Un 0 es un espacio, un 1 es un muro, un 2 es obstáculo, un 3 la posición inicial del coche, un 4 la meta.
+typedef std::vector<std::vector<state>> MatrixState;
+
+
 class Board {
 
     int M_; //Ancho
