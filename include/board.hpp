@@ -1,3 +1,6 @@
+#ifndef BOARD_HPP
+#define BOARD_HPP
+
 #include <vector>
 #include <string>
 #include <iostream>
@@ -41,3 +44,6 @@ public:
 
     void Write(std::ostream &os, writemode) const;
 };
+
+
+#endif //BOARD_HPP

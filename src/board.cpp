@@ -1,5 +1,5 @@
 #include "../include/board.hpp"
-
+ 
 Board::Board() {
     Valid = false;
     M_ = 0;
@@ -135,5 +135,5 @@ void Board::Write(std::ostream &os, writemode mode) const {
     }
 }
 
-
+Board::~Board() {}
 

@@ -1,5 +1,9 @@
 #include "../include/board_maker.hpp"
 
+BoardMakerFrontend::BoardMakerFrontend() {}
+BoardMakerFrontend::~BoardMakerFrontend() {}
+
+
 void BoardMakerFrontend::Menu(){
     std::string file;
     int option;

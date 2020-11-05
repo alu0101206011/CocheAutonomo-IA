@@ -7,7 +7,10 @@
 class BoardMakerFrontend {    
     
     public:
-    
+    BoardMakerFrontend();
+    ~BoardMakerFrontend();
+
+
     void Menu();
     void CreateNewMap(std::string&);
     void ModifyMap(std::string&);
@@ -16,3 +19,4 @@ class BoardMakerFrontend {
 };
 
 int IntroducePos(const int, const int, const int, std::vector<std::vector<int>>&);
+
