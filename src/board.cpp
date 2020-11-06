@@ -15,11 +15,11 @@ Board::Board(int M,int N) {
     for (int i = 0; i < N_ + 2; i++) {
         MatrixBoard_[i].resize((M_+2));
     }
-    for (int i = 0; i < N_; i++) {
+    for (int i = 0; i < N_ + 2; i++) {
         ChangeState(i,0,Wall);
         ChangeState(i,M_+1,Wall);
     }
-    for (int i = 0; i < M_; i++) {
+    for (int i = 0; i < M_ + 2; i++) {
         ChangeState(0,i,Wall);
         ChangeState(N_+1,i,Wall);
     } 
@@ -47,7 +47,6 @@ Board::Board(std::string filename) {
             newstate = GetState(nstate);
             ChangeState(i,j,newstate);
         }
-    Write(std::cout, terminalicons);
     reader.close();
 }
 
@@ -79,7 +78,7 @@ void Board::ChangeState(int x, int y, state newstate) {
 
 void Board::Write(std::ostream &os, writemode mode) const {
     if (mode == file) {
-        os << GetM() << std::endl << GetN() << std::endl;
+        os << GetN() + 2 << " " << GetM() + 2 << std::endl;
         for (int i = 0; i < GetN() + 2; i++) { 
             for (int j = 0; j < GetM() + 2; j++) {  
                 os << GetState(i,j);

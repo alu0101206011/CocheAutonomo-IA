@@ -11,7 +11,7 @@ int main () {
 
     //Board map(3,3); //segmentation fault
     //Obj.CreateNewMap(hola);
-    Obj.ModifyMap(hola); 
+    Obj.Menu(); 
 
 
     return 0;

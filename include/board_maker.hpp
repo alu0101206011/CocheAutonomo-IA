@@ -14,9 +14,8 @@ class BoardMakerFrontend {
     void Menu();
     void CreateNewMap(std::string&);
     void ModifyMap(std::string&);
-    void IntroducePos(state,Board);
+    void IntroducePos(state,Board&);
 
 };
 
-int IntroducePos(const int, const int, const int, std::vector<std::vector<int>>&);
 
