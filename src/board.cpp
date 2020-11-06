@@ -4,30 +4,17 @@ Board::Board() {
     Valid = false;
     M_ = 0;
     N_ = 0;
-    MatrixState map;
-    for (int i = 0; i < M_+2; i++) {
-        map.resize(N_+2);
-    }
-    MatrixBoard_= map;
-    for (int i = 0; i < N_; i++) {
-        ChangeState(i,0,Wall);
-        ChangeState(i,M_+1,Wall);
-    }
-    for (int i = 0; i < M_; i++) {
-        ChangeState(0,i,Wall);
-        ChangeState(N_+1,i,Wall);
-    }
+    MatrixBoard_.resize(0);
 }
 
 Board::Board(int M,int N) {
     Valid = false;
     M_ = M;
     N_ = N;
-    MatrixState map;
-    for (int i = 0; i < M_+2; i++) {
-        map.resize(N_+2);
+    MatrixBoard_.resize((N_+2));
+    for (int i = 0; i < N_ + 2; i++) {
+        MatrixBoard_[i].resize((M_+2));
     }
-    MatrixBoard_= map;
     for (int i = 0; i < N_; i++) {
         ChangeState(i,0,Wall);
         ChangeState(i,M_+1,Wall);
@@ -35,7 +22,7 @@ Board::Board(int M,int N) {
     for (int i = 0; i < M_; i++) {
         ChangeState(0,i,Wall);
         ChangeState(N_+1,i,Wall);
-    }
+    } 
 }
 
 Board::Board(std::string filename) {
@@ -48,14 +35,17 @@ Board::Board(std::string filename) {
     M_ = M_ - 2;
     N_ = N_ - 2;
     MatrixState map;
-    MatrixBoard_.reserve((N_+2)*(M_+2));
+    MatrixBoard_.resize((N_+2));
+    for (int i = 0; i < N_ + 2; i++) {
+        MatrixBoard_[i].resize((M_+2));
+    }
     int nstate;
     state newstate;
     for (int i = 0; i < N_ + 2; i++) 
         for (int j = 0; j < M_ + 2; j++) {
             reader >> nstate;
             newstate = GetState(nstate);
-            MatrixBoard_[i].push_back(newstate); 
+            ChangeState(i,j,newstate);
         }
     Write(std::cout, terminalicons);
     reader.close();
@@ -72,7 +62,7 @@ int Board::GetN() const {
 state Board::GetState(int x, int y) const {
     return MatrixBoard_[x][y];
 }
-//enum state {ClearPath, Wall, Obstacle, Car, Finish}; //Un 0 es un espacio, un 1 es un muro, un 2 es obstáculo, un 3 la posición inicial del coche, un 4 la meta.
+
 state Board::GetState(int nstate) const {
     if (nstate == 0) return ClearPath;
     else if (nstate == 1) return Wall;

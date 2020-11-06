@@ -9,9 +9,9 @@ int main () {
 
     BoardMakerFrontend Obj;
 
-    Board map(3,3); //segmentation fault
+    //Board map(3,3); //segmentation fault
     //Obj.CreateNewMap(hola);
-    //Obj.ModifyMap(hola); 
+    Obj.ModifyMap(hola); 
 
 
     return 0;
