@@ -79,6 +79,7 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                                 {
                                 case 's':
                                     map.ChangeState(j,i,ClearPath);
+                                    IntroducePos(Car, map);
                                     break;
                                 case 'n':
                                     break;
@@ -87,8 +88,9 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                                     break;
                                 }
                             } while (election != 's' && election != 'n');
-                        }
+                        }  std::cout << "hola\n";
                     }
+                    IntroducePos(Car, map);
                 }
                 break;
             case 'o':
@@ -122,6 +124,8 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                     }
                 }
                 break;
+            case 'n':
+                break;
             default:
                 std::cout << "Argumento invalido: escriba 'c' 'o' 'n' si quiere coche, obstaculo o nada\n";
                 break; 
@@ -130,6 +134,7 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
 
     std::ofstream mapfile;
     mapfile.open(FileName); //CAMBIAR A TRUNCAR
+    
     map.Write(mapfile,file);
     mapfile.close();
 

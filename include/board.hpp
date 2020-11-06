@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #define BLACK "\033[0;30m"
 #define RED "\033[0;31m"
@@ -39,6 +40,7 @@ public:
     int GetM() const;
     int GetN() const;
     state GetState(int,int) const;
+    state GetState(int) const;
     void ChangeState(int,int,state);
     void CheckMap();
 
