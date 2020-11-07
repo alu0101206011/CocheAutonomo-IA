@@ -95,9 +95,9 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                 {
                 std::cout << "Ha entrado en coche.\n";
                 int counter = 0;
-                for (int i = 1; i < map.GetN(); i++) { 
-                    for (int j = 1; j < map.GetM(); j++) { 
-                        if (map.GetState(j,i) == Car && counter == 0) {
+                for (int i = 1; i < map.GetN() + 1; i++) { 
+                    for (int j = 1; j < map.GetM() + 1; j++) { 
+                        if (map.GetState(i,j) == Car && counter == 0) {
                             std::cout << "Ya existe un coche. Se encuentra en la posición (" << j << "," << i << ")" << std::endl;
                             std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
                             char election = '\0';
@@ -105,7 +105,7 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                             do {
                                 switch (election) {
                                 case 's':
-                                    map.ChangeState(j,i,ClearPath);
+                                    map.ChangeState(i,j,ClearPath);
                                     IntroducePos(Car, map);
                                     counter++;
                                     break;
@@ -138,7 +138,7 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                 for (int i = 0; i < map.GetN() + 1; i++) { 
                     for (int j = 0; j < map.GetM() + 1; j++) { 
                         if(i == 0 || i == map.GetN() + 1 || j == 0 || j == map.GetM() + 1) {
-                            if (map.GetState(j,i) == Finish && counter == 0) {
+                            if (map.GetState(i,j) == Finish && counter == 0) {
                                 std::cout << "Ya existe una salida. Se encuentra en la posición (" << j << "," << i << ")" << std::endl;
                                 std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
                                 char election;
@@ -147,7 +147,7 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                                     switch (election)
                                     {
                                     case 's':
-                                        map.ChangeState(j,i,Wall);
+                                        map.ChangeState(i,j,Wall);
                                         IntroducePos(Finish, map);
                                         counter++;
                                         break;
@@ -200,11 +200,11 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
             std::cout << "Introduzca la posición Y otra vez: ";
             std::cin >> x;
         }
-        if (x < 0 || y < 0 || x > (map.GetN() + 2) || y > (map.GetM() + 2))
+        if (x < 0 || y < 0 || x > (map.GetN() + 1) || y > (map.GetM() + 1))
             std::cerr << "La matriz tiene que estar entre:\n"
                       << "x = [0] a [" << map.GetN() + 1 << "]\n" 
                       << "y = [0] a [" << map.GetM() + 1 << "]\n";
-    } while (x < 0 || y < 0 || x > (map.GetN() + 2) || y > (map.GetM() + 2));
+    } while (x < 0 || y < 0 || x > (map.GetN() + 1) || y > (map.GetM() + 1));
     if (map.GetState(x,y) != ClearPath) {
         std::cout << "La posición indicada está ocupada por ";
         if (map.GetState(x,y) == Obstacle) {
