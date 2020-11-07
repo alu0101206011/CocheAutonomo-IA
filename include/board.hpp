@@ -40,7 +40,6 @@ public:
     int GetM() const;
     int GetN() const;
     state GetState(int,int) const;
-    state GetState(int) const;
     void ChangeState(int,int,state);
     void CheckMap();
 

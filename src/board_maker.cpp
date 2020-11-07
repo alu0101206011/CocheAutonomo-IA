@@ -37,6 +37,7 @@ void BoardMakerFrontend::Menu(){
                 /* Salir */
                 break;
             default:
+                std::cerr << "Se ha introducido una opción incorrecta\n";
                 break;
         }
     } while (option != 5);

@@ -25,6 +25,7 @@ Board::Board(int M,int N) {
     } 
 }
 
+
 Board::Board(std::string filename) {
     std::ifstream reader(filename);
     if (!reader) {
@@ -34,18 +35,15 @@ Board::Board(std::string filename) {
     reader >> N_ >> M_;
     M_ = M_ - 2;
     N_ = N_ - 2;
-    MatrixState map;
     MatrixBoard_.resize((N_+2));
     for (int i = 0; i < N_ + 2; i++) {
         MatrixBoard_[i].resize((M_+2));
     }
     int nstate;
-    state newstate;
     for (int i = 0; i < N_ + 2; i++) 
         for (int j = 0; j < M_ + 2; j++) {
             reader >> nstate;
-            newstate = GetState(nstate);
-            ChangeState(i,j,newstate);
+            ChangeState(i,j,static_cast<state>(nstate));
         }
     reader.close();
 }
@@ -60,16 +58,6 @@ int Board::GetN() const {
 
 state Board::GetState(int x, int y) const {
     return MatrixBoard_[x][y];
-}
-
-state Board::GetState(int nstate) const {
-    if (nstate == 0) return ClearPath;
-    else if (nstate == 1) return Wall;
-    else if (nstate == 2) return Obstacle;
-    else if (nstate == 3) return Car;
-    else if (nstate == 4) return Finish;
-    else std::cerr << "Error: state not valid.\n"; 
-    exit(1);
 }
 
 void Board::ChangeState(int x, int y, state newstate) {

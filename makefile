@@ -3,18 +3,17 @@ CFLAGS = -g -Wall -std=c++17
 OBJ = ./obj/board.o ./obj/board_maker.o ./obj/car.o ./obj/main.o
 EXEC = Board_Test
 
-all: $(OBJ) 
+all: $(OBJ)
 	$(CC) $(CFLAGS) -o ./bin/$(EXEC) $^
-
-run: clean all
-	./$(BIN)/$(EXEC)
 
 ./obj/%.o: ./src/%.cpp 
 	$(CC) -c -o $@ $<
 
+run: clean all
+	./$(BIN)/$(EXEC)
 
 .PHONY: clean
 
 clean:
-	rm ./bin/*
-	rm ./obj/*
+	rm -f ./bin/*
+	rm -f ./obj/*
