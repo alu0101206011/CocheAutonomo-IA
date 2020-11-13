@@ -11,19 +11,10 @@ Board::Board(int M,int N) {
     Valid = false;
     M_ = M;
     N_ = N;
-    MatrixBoard_.resize((M_+2));
-
-    for (int i = 0; i < M_ + 2; i++) {
-        MatrixBoard_[i].resize((N_+2));
+    MatrixBoard_.resize(M_);
+    for (int i = 0; i < M_; i++) {
+        MatrixBoard_[i].resize(N_,ClearPath);
     }
-    for (int i = 0; i < M_ + 2; i++) { //Ancho
-        ChangeState(i,0,Wall); // primera fila
-        ChangeState(i,N_+1,Wall); //ultima fila
-    }
-    for (int i = 0; i < N_ + 2; i++) {
-        ChangeState(0,i,Wall); 
-        ChangeState(M_+1,i,Wall);
-    } 
 }
 
 
@@ -34,15 +25,15 @@ Board::Board(std::string filename) {
         exit(1);
     }
     reader >> M_ >> N_;
-    MatrixBoard_.resize((M_+2));
-    for (int i = 0; i < M_ + 2; i++) {
-        MatrixBoard_[i].resize((N_+2));
+    MatrixBoard_.resize(M_);
+    for (int i = 0; i < M_; i++) {
+        MatrixBoard_[i].resize(N_);
     }
     int nstate;
-    for (int i = 0; i < N_ + 2; i++) 
-        for (int j = 0; j < M_ + 2; j++) {
+    for (int i = 0; i < M_; i++) 
+        for (int j = 0; j < N_; j++) {
             reader >> nstate;
-            ChangeState(j,i,static_cast<state>(nstate));
+            ChangeState(i,j,static_cast<state>(nstate));
         }
     reader.close();
 }
@@ -66,27 +57,30 @@ void Board::ChangeState(int x, int y, state newstate) {
 void Board::Write(std::ostream &os, writemode mode) const {
     if (mode == file) {
         os << GetM() << " " << GetN() << std::endl;
-        for (int i = 0; i < GetN() + 2; i++) { 
-            for (int j = 0; j < GetM() + 2; j++) {  
-                os << GetState(j,i);
-                if (j != GetM() + 1) { 
+        for (int i = 0; i < GetM(); i++) { 
+            for (int j = 0; j < GetN(); j++) {  
+                os << GetState(i,j);
+                if (j != GetN() - 1) { 
                     os << " ";
                 }
             }
-            if (i != GetN() + 1) { 
+            if (i != GetM() - 1) { 
                 os << std::endl;
             }
         }
     } else if (mode == terminalicons) {
-        for (int i = 0; i < GetN() + 2; i++) { 
-            for (int j = 0; j < GetM() + 2; j++) {  
-                switch (GetState(j,i))
+        for (int i = 0; i < GetM(); i++) {
+            if (i == 0 || i == GetM() - 1){
+                for(int j = 0; j < GetN(); j++){
+                    os << "🧱";
+                }
+            }
+            os << "🧱";
+            for (int j = 0; j < GetN(); j++) {  
+                switch (GetState(i,j))
                 {
                 case ClearPath:
                     os << "⬜" ;
-                    break;
-                case Wall:
-                    os << "🧱" ;
                     break;
                 case Obstacle:
                     os << "🚧" ;
@@ -102,22 +96,19 @@ void Board::Write(std::ostream &os, writemode mode) const {
                     break;
                 }
             }
-            if (i != GetN() + 1) { 
+            os << "🧱";
+            if (i != GetM() - 1) { 
                 os << std::endl;
             }
         }
         os << std::endl;
     } else if (mode == terminalcords) {
-        
-        for (int i = 0; i < GetN() + 2; i++) { 
-            for (int j = 0; j < GetM() + 2; j++) {  
-                switch (GetState(j,i))
+        for (int i = 0; i < GetM(); i++) { 
+            for (int j = 0; j < GetN(); j++) {  
+                switch (GetState(i,j))
                 {
                 case ClearPath:
                     os << YELLOW;
-                    break;
-                case Wall:
-                    os << BLACK;
                     break;
                 case Obstacle:
                     os << GREEN;
@@ -132,17 +123,14 @@ void Board::Write(std::ostream &os, writemode mode) const {
                     os << WHITE;
                     break;
                 }
-                os << "(" << j << "," << i << ")\t" << RESET;
+                os << "(" << i << "," << j << ")\t" << RESET;
             }
-            if (i != GetN() + 1) { 
-                os << std::endl;
-            }
+            os << "\n";
         }
-        os << std::endl;
+        os << YELLOW << "(Espacio vacío) " << GREEN << "(Obstáculo) " << CYAN << "(Coche) " << RED << "(Meta) " << WHITE << "(Error) " << RESET << std::endl;
     } else {
         os << "Write mode is invalid or something went wrong";
     }
 }
 
-Board::~Board() {}
-
+Board::~Board() { }

@@ -26,8 +26,8 @@ typedef std::vector<std::vector<state>> MatrixState;
 class Board {
 
     bool Valid;
-    int M_; //Ancho
-    int N_; //Alto
+    int M_; //Alto
+    int N_; //Ancho
     MatrixState MatrixBoard_; 
 
 public:

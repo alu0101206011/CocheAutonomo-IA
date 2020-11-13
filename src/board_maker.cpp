@@ -6,46 +6,84 @@ BoardMakerFrontend::~BoardMakerFrontend() {}
 
 void BoardMakerFrontend::Menu(){
     std::string file;
-    int option;
+    char option;
     do {
         system("clear");
         std::cout << "Bienvenido al menú de creación de tableros.\n";
-        std::cout << "Hay diferentes opciones: "; //Poner opciones
+        std::cout << "Hay diferentes opciones\n"; //Poner opciones
+        std::cout << "[1] Crear un nuevo mapa vacío\n";
+        std::cout << "[2] Modificar un mapa existente\n";
+        std::cout << "[3] Modificar una copia de un mapa existente\n";
+        std::cout << "[4] Crear un mapa aleatorio\n";
+        std::cout << "[5] Aleatorizar un mapa\n";
+        std::cout << "[6] Ver listado de mapas\n";
+        std::cout << "[7] Borrar un mapa\n";
+        std::cout << "[8] Salir\n";
+        std::cout << "Escoja una opcion: "; //Poner opciones
         std::cin >> option;
         std::string filename;
+        std::string newfilename;
         switch (option) {
-            case 1:
+            case '1':
                 /* Crear Nuevo Mapa */
+                std::cout << "Se va a crear un mapa nuevo\n";
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
                 CreateNewMap(filename);
                 ModifyMap(filename);
                 break;
-            case 2:
+            case '2':
                 /* Modificar Mapa */
+                std::cout << "Se va a modifcar un mapa\n";
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
                 ModifyMap(filename);
                 break;
-            case 3:
+            case '3':
                 /* Modificar copia de un Mapa */
+                std::cout << "Se va a modifcar una copia de un mapa\n";
+                std::cout << "Introduzca el nombre del mapa a copiar: ";
+                std::cin >> filename;
+                std::cout << "Introduzca el nuevo nombre del mapa: ";
+                std::cin >> newfilename;
+                CopyMap(filename,newfilename);
+                ModifyMap(newfilename);
                 break;
-            case 4:
+            case '4':
+                /* Crear un mapa aleatorio */
+                std::cout << "Se va a crear un mapa aleatorio\n";
+                std::cout << "Introduzca el nombre del mapa: ";
+                std::cin >> filename;
+                CreateNewMap(filename);
+                //Randomize(filename);
+                break;  
+            case '5':
+                /* Aleatorizar un mapa */
+                std::cout << "Se va a aleatorizar\n";
+                std::cout << "Introduzca el nombre del mapa: ";
+                std::cin >> filename;
+                //Randomize(filename);
+                break;
+            case '6':
+                /* Ver listado de mapas */
+                ListMaps();
+                break;
+            case '7':
                 /* Borrar Mapa */
-                break;    
-            case 5:
+                break;  
+            case '8':
                 /* Salir */
                 break;
             default:
                 std::cerr << "Se ha introducido una opción incorrecta\n";
                 break;
         }
-    } while (option != 5);
+    } while (option != '8');
 }
 
-void BoardMakerFrontend::CreateNewMap(std::string &FileName) {
+void BoardMakerFrontend::CreateNewMap(std::string FileName) {
 
-    std::ifstream reader(FileName);
+    std::ifstream reader("boards/" + FileName);
     if (reader) {
         std::cout << "El fichero ya existe\n"
                   << "¿Quiere sobreescribir? Seleccione [s]i [n]o: ";
@@ -56,6 +94,7 @@ void BoardMakerFrontend::CreateNewMap(std::string &FileName) {
             case 's':
                 break;
             case 'n':
+                reader.close();
                 return;
             default:
                 std::cout << "Se ha escogido una opción no válida" << std::endl;
@@ -64,29 +103,34 @@ void BoardMakerFrontend::CreateNewMap(std::string &FileName) {
         } while (election != 's' && election != 'n');
         reader.close();
     }
-    
+
+    if (!CheckName(FileName)) {
+        return;
+    }
        
     int height, wide;
     std::cout << "¿Qué anchura debe tener el tablero? ";
     std::cin >> wide;
     std::cout << "¿Qué altura debe tener el tablero? ";
     std::cin >> height;
-
-    Board map(wide,height);
+    Board map(height,wide);
     
     std::ofstream mapfile;
-    mapfile.open(FileName);
+    mapfile.open("boards/" + FileName);
     map.Write(mapfile,file);
     mapfile.close();
 }
 
-void BoardMakerFrontend::ModifyMap(std::string &FileName) {
-    Board map(FileName);
-    std::cout << "Su matriz actualmente es una (" << map.GetM() + 2 << "x" << map.GetN() + 2 << ") y es asi: \n";
-    map.Write(std::cout, terminalcords);
-
+void BoardMakerFrontend::ModifyMap(std::string FileName) {
+    std::cout << "Peté al principio de modify" << std::endl;
+    if (!CheckName(FileName)) {
+        return;
+    }
+    Board map("boards/" + FileName);
     char option;
     do {
+        std::cout << "Su matriz actualmente es una (" << map.GetM() << "x" << map.GetN() << ") y es asi: \n";
+        map.Write(std::cout, terminalcords);
         std::cout << "¿Qué desea introducir? [c]oche [o]bstaculo [s]alida [n]ada\n";
         std::cin >> option;
 
@@ -95,8 +139,8 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                 {
                 std::cout << "Ha entrado en coche.\n";
                 int counter = 0;
-                for (int i = 1; i < map.GetM() + 1; i++) { 
-                    for (int j = 1; j < map.GetN() + 1; j++) { 
+                for (int i = 1; i < map.GetM(); i++) { 
+                    for (int j = 1; j < map.GetN(); j++) { 
                         if (map.GetState(i,j) == Car && counter == 0) {
                             std::cout << "Ya existe un coche. Se encuentra en la posición (" << i << "," << j << ")" << std::endl;
                             std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
@@ -122,51 +166,40 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
                 }
                 if (counter == 0)
                     IntroducePos(Car, map);
-                map.Write(std::cout, terminalicons);
                 break;
                 }
             case 'o':
                 std::cout << "Ha entrado en obstaculo.\n";
                 std::cout << "¿Dónde desea introducir el obstáculo?" << std::endl;
                 IntroducePos(Obstacle,map);
-                map.Write(std::cout, terminalicons);
                 break;
             case 's':
                 {
-                int counter = 0;
                 std::cout << "Ha entrado en salida.\n";
-                for (int i = 0; i < map.GetM() + 2; i++) { 
-                    for (int j = 0; j < map.GetN() + 2; j++) { 
-                        if(i == 0 || i == map.GetM() + 1 || j == 0 || j == map.GetN() + 1) {
-                            if (map.GetState(i,j) == Finish && counter == 0) {
-                                std::cout << "Ya existe una salida. Se encuentra en la posición (" << i << "," << j << ")" << std::endl;
-                                std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
-                                char election;
-                                std::cin >> election;
-                                do {
-                                    switch (election)
-                                    {
-                                    case 's':
-                                        map.ChangeState(i,j,Wall);
-                                        IntroducePos(Finish, map);
-                                        counter++;
-                                        break;
-                                    case 'n':
-                                        counter++;
-                                        break;
-                                    default:
-                                        std::cout << "Se ha escogido una opción no válida" << std::endl;
-                                        break;
-                                    }
-                                } while (election != 's' && election != 'n');
-                            }
+                for (int i = 0; i < map.GetM(); i++) { 
+                    for (int j = 0; j < map.GetN(); j++) {
+                        if (map.GetState(i,j) == Finish) {
+                            std::cout << "Ya existe una salida. Se encuentra en la posición (" << i << "," << j << ")" << std::endl;
+                            std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
+                            char election;
+                            std::cin >> election;
+                            do {
+                                switch (election)
+                                {
+                                case 's':
+                                    map.ChangeState(i,j,ClearPath);
+                                    break;
+                                case 'n':
+                                    break;
+                                default:
+                                    std::cout << "Se ha escogido una opción no válida" << std::endl;
+                                    break;
+                                }
+                            } while (election != 's' && election != 'n');
                         }
                     }
                 }
-                if (counter == 0)
-                    IntroducePos(Finish, map);
-                map.Write(std::cout, terminalicons);                
-                break;
+                IntroducePos(Finish, map); 
                 }
             case 'n':
                 break;
@@ -177,14 +210,13 @@ void BoardMakerFrontend::ModifyMap(std::string &FileName) {
     } while (option != 'n');
 
     std::ofstream mapfile;
-    mapfile.open(FileName); 
-    
+    mapfile.open("boards/" + FileName); 
     map.Write(mapfile,file);
     mapfile.close();
 }
 
 void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
-    int x = 0, y = 0;
+    int x, y;
     do {
         std::cout << "Posición X: ";
         std::cin >> x;
@@ -200,11 +232,11 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
             std::cout << "Introduzca la posición Y otra vez: ";
             std::cin >> x;
         }
-        if (x < 0 || y < 0 || x > (map.GetM() + 1) || y > (map.GetN() + 1))
-            std::cerr << "La matriz tiene que estar entre:\n"
+        if ((x <= 0) || (y <= 0) || (x >= (map.GetM() + 1)) || (y >= (map.GetN() + 1)))
+            std::cerr << "La posición tiene que estar entre:\n"
                       << "x = [0] a [" << map.GetN() + 1 << "]\n" 
                       << "y = [0] a [" << map.GetM() + 1 << "]\n";
-    } while (x < 0 || y < 0 || x > (map.GetM() + 1) || y > (map.GetN() + 1));
+    } while (x < 0 || y < 0 || x > (map.GetM() - 1) || y > (map.GetN() - 1));
     if (map.GetState(x,y) != ClearPath) {
         std::cout << "La posición indicada está ocupada por ";
         if (map.GetState(x,y) == Obstacle) {
@@ -213,12 +245,6 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
             std::cout << "un coche\n";
         } else if (map.GetState(x,y) == Finish) {
             std::cout << "una salida\n";
-        } else if (map.GetState(x,y) == Wall) {
-            std::cout << "una pared\n";
-        }  
-        if (map.GetState(x,y) == Wall && newstate != Finish) {
-            std::cerr << "No se puede colocar en esta posición\n";
-            return;
         }
         std::cout << "¿Desea sobrescribir la posición? Seleccione [s]í [n]o: ";
         char election;
@@ -237,26 +263,55 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
             }
         } while (election != 's' && election != 'n');
     }
-    if (newstate == Finish) {
-        if ((x == 0 && y == 0) || (x == 0 && y == map.GetN() + 1) || 
-            (x == map.GetM() + 1 && y == 0 ) || (x == map.GetM() + 1 && y == map.GetN() + 1 )) {
-            std::cerr << "La salida no puede ser una esquina\n";
-            return;
-        }
-        if(x == 0 || x == map.GetM() + 1 || y == 0 || y == map.GetN() + 1) {
-            map.ChangeState(x,y,newstate);
-        } else {
-            std::cerr << "Se tiene que colocar en una pared\n";
-        }
-    }
-    if (newstate == Obstacle || newstate == Car || newstate == ClearPath)  
-        if(x != 0 && x != map.GetM() + 1 && y != 0 && y != map.GetN() + 1)
-            map.ChangeState(x,y,newstate);
+    map.ChangeState(x,y,newstate);
 }
 
+void BoardMakerFrontend::CopyMap(std::string oldname, std::string newname) {
+    std::ifstream sourcefile;
+    sourcefile.open(oldname, std::ios::binary);
+    std::ofstream destinyfile;
+    destinyfile.open(newname, std::ios::binary);
+    destinyfile << sourcefile.rdbuf();
+    sourcefile.close();
+    destinyfile.close();
+}
 
+void BoardMakerFrontend::ListMaps() {
+    DIR *dr = opendir("boards/");
+    if (dr == NULL) { // opendir returns NULL if couldn't open directory 
+        std::cerr << "Could not open current directory" << std::endl; 
+        return; 
+    }
+    struct dirent *de;
+    while ((de = readdir(dr)) != NULL)  {
+        std::cout << de->d_name << std::endl;
+    }
+    closedir(dr);
+}
+
+bool BoardMakerFrontend::CheckMap(std::string filename) {
+    if (!CheckName(filename)) {
+        return false;
+    }
+    std::ifstream filetocheck;
+    filetocheck.open("boards/" + filename);
+    if (!filetocheck) {
+        std::cerr << "No se ha podido abrir el fichero" << std::endl;
+        filetocheck.close();
+        return false;
+    }
+    return true;
+    //Comprobar que un fichero esté en buen estado, tipo dimensiones bien, 1 coche, 1 meta, etc.
+}
+
+bool BoardMakerFrontend::CheckName(std::string filename) {
+    if (filename.find('/') != std::string::npos) {
+        std::cerr << "Tu fichero tiene caracteres no válidos" << std::endl;
+        return false; // found
+    }
+    return true;
+}
 /* 12 12
-if (i = 0 )
 1 8 1 1 1 1 1 1 1 1 1 1
 1 0 0 0 0 0 1 1 0 0 0 1
 1 1 0 0 0 0 0 1 0 1 0 1
