@@ -7,8 +7,8 @@ BoardMakerFrontend::~BoardMakerFrontend() {}
 void BoardMakerFrontend::Menu(){
     std::string file;
     char option;
+    system("clear");
     do {
-        system("clear");
         std::cout << "Bienvenido al menú de creación de tableros.\n";
         std::cout << "Hay diferentes opciones\n"; //Poner opciones
         std::cout << "[1] Crear un nuevo mapa vacío\n";
@@ -17,10 +17,12 @@ void BoardMakerFrontend::Menu(){
         std::cout << "[4] Crear un mapa aleatorio\n";
         std::cout << "[5] Aleatorizar un mapa\n";
         std::cout << "[6] Ver listado de mapas\n";
-        std::cout << "[7] Borrar un mapa\n";
-        std::cout << "[8] Salir\n";
+        std::cout << "[7] Ver un mapa concreto\n";
+        std::cout << "[8] Borrar un mapa\n";
+        std::cout << "[9] Salir\n";
         std::cout << "Escoja una opcion: "; //Poner opciones
         std::cin >> option;
+        system("clear");
         std::string filename;
         std::string newfilename;
         switch (option) {
@@ -69,21 +71,29 @@ void BoardMakerFrontend::Menu(){
                 ListMaps();
                 break;
             case '7':
+                /* Ver un mapa concreto */
+                std::cout << "Se va a ver un mapa concreto\n";
+                std::cout << "Introduzca el nombre del mapa: ";
+                std::cin >> filename;
+                ShowMap(filename,std::cout);
+                break;
+            case '8':
                 /* Borrar Mapa */
                 std::cout << "Introduzca el nombre del mapa a borrar: ";
                 std::cin >> filename;
                 CheckMap(filename);
                 DeleteMap(filename);
                 break;  
-            case '8':
+            case '9':
                 /* Salir */
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
-                std::cerr << "Se ha introducido una opción incorrecta\n";
+                std::cerr << "Se ha introducido una opción incorrecta\n\n";
                 break;
         }
-    } while (option != '8');
+        std::cout << std::endl;
+    } while (option != '9');
 }
 
 void BoardMakerFrontend::CreateNewMap(std::string filename) {
@@ -110,14 +120,14 @@ void BoardMakerFrontend::CreateNewMap(std::string filename) {
                 break;
             }
         } while (election != 's' && election != 'n');
-        reader.close();
+       reader.close();
     }
        
     int height, wide;
-    std::cout << "¿Qué anchura debe tener el tablero? ";
-    std::cin >> wide;
     std::cout << "¿Qué altura debe tener el tablero? ";
     std::cin >> height;
+    std::cout << "¿Qué anchura debe tener el tablero? ";
+    std::cin >> wide;
     Board map(height,wide);
     
     std::ofstream mapfile;
@@ -250,12 +260,11 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
         } else if (map.GetState(x,y) == Finish) {
             std::cout << "una salida\n";
         }
-        std::cout << "¿Desea sobrescribir la posición? Seleccione [s]í [n]o: ";
         char election;
-        std::cin >> election;
         do {
-            switch (election)
-            {
+            std::cout << "¿Desea sobrescribir la posición? Seleccione [s]í [n]o: ";
+            std::cin >> election;
+            switch (election) {
             case 's':
                 break;
             case 'n':
@@ -292,6 +301,29 @@ void BoardMakerFrontend::Randomize(std::string filename) {
     std::ofstream mapfile;
     mapfile.open("boards/" + filename);
     map.Write(mapfile,file);
+    map.Write(std::cout,terminalicons);
+    mapfile.close();
+}
+
+void BoardMakerFrontend::ShowMap(std::string filename, std::ostream& os) {
+    Board map("boards/" + filename);
+    char option;
+    do {
+        std::cout << "¿Cómo desea ver el mapa?\n";
+        std::cout << "[i]conos ó [c]oordenadas: ";
+        std::cin >> option;
+        switch (option) {
+        case 'i':
+            map.Write(os, terminalicons);
+            break;
+        case 'c':
+            map.Write(os, terminalcords);
+            break;
+        default:
+            std::cout << "Se ha escogido una opción no válida" << std::endl;
+            break;
+        }
+    } while (option != 'i' && option != 'c');
 }
 
 void BoardMakerFrontend::ListMaps() {

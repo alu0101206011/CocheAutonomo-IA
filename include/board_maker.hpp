@@ -17,6 +17,7 @@ class BoardMakerFrontend {
     void IntroducePos(state,Board&);
     void CopyMap(std::string,std::string);
     void Randomize(std::string);
+    void ShowMap(std::string,std::ostream&);
     void ListMaps();
     void DeleteMap(std::string);
 

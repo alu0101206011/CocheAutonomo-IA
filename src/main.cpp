@@ -5,12 +5,7 @@
 #include <iostream>
 
 int main () {
-    std::string hola = "hola.txt";
-
     BoardMakerFrontend Obj;
-
-    //Board map(3,3); //segmentation fault
-    //Obj.CreateNewMap(hola);
     Obj.Menu(); 
 
 

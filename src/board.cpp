@@ -109,10 +109,11 @@ void Board::Write(std::ostream &os, writemode mode) const {
         }
     } else if (mode == terminalicons) {
         for (int i = 0; i < GetM(); i++) {
-            if (i == 0 || i == GetM() - 1){
-                for(int j = 0; j < GetN(); j++){
+            if (i == 0){
+                for(int j = 0; j < GetN() + 2; j++){
                     os << "🧱";
                 }
+                os << "\n";
             }
             os << "🧱";
             for (int j = 0; j < GetN(); j++) {  
@@ -136,8 +137,11 @@ void Board::Write(std::ostream &os, writemode mode) const {
                 }
             }
             os << "🧱";
-            if (i != GetM() - 1) { 
-                os << std::endl;
+            os << std::endl;
+            if (i == GetM() - 1){
+                for(int j = 0; j < GetN() + 2; j++){
+                    os << "🧱";
+                }
             }
         }
         os << std::endl;

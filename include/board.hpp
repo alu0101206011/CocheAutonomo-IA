@@ -21,7 +21,7 @@
 class BoardMakerFrontend;
 
 enum writemode {file, terminalicons, terminalcords};
-enum state {ClearPath, Wall, Obstacle, Car, Finish}; //Un 0 es un espacio, un 1 es un muro, un 2 es obstáculo, un 3 la posición inicial del coche, un 4 la meta.
+enum state {ClearPath, OccupiedPath, Obstacle, Car, Finish}; //Un 0 es un espacio, un 1 es un muro, un 2 es obstáculo, un 3 la posición inicial del coche, un 4 la meta.
 typedef std::vector<std::vector<state>> MatrixState;
 
 
