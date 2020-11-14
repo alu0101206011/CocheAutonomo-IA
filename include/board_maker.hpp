@@ -11,7 +11,6 @@ class BoardMakerFrontend {
     BoardMakerFrontend();
     ~BoardMakerFrontend();
 
-
     void Menu();
     void CreateNewMap(std::string);
     void ModifyMap(std::string);
@@ -19,6 +18,7 @@ class BoardMakerFrontend {
     void CopyMap(std::string,std::string);
     void Randomize(std::string);
     void ListMaps();
+    void DeleteMap(std::string);
 
     private:
     bool CheckMap(std::string);

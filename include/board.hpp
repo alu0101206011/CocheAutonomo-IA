@@ -5,6 +5,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 
 #define BLACK "\033[0;30m"
 #define RED "\033[0;31m"
@@ -42,6 +44,7 @@ public:
     state GetState(int,int) const;
     void ChangeState(int,int,state);
     void CheckMap();
+    void ShuffleMap(int);
 
     void Write(std::ostream &os, writemode) const;
 };

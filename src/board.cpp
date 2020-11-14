@@ -54,6 +54,45 @@ void Board::ChangeState(int x, int y, state newstate) {
     MatrixBoard_[x][y] = newstate;
 }
 
+void Board::ShuffleMap(int obstnum) {
+    std::srand(time(NULL)); //Generamos una seed aleatoria
+
+    ChangeState(std::rand()%GetM(),std::rand()%GetN(),Car); //Random Car
+
+    int rx = std::rand()%GetM(); //Random Finish
+    int ry = std::rand()%GetN();
+    if (GetState(rx,ry) == ClearPath) {
+        ChangeState(rx,ry,Finish);
+    } else {
+        while (GetState(rx,ry) != ClearPath) {
+            int rx = std::rand()%GetM();
+            int ry = std::rand()%GetN();
+            if (GetState(rx,ry) == ClearPath) {
+                ChangeState(rx,ry,Finish);
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < obstnum; i++) { //Random obstacles
+        int rx = std::rand()%GetM();
+        int ry = std::rand()%GetN();
+        if (GetState(rx,ry) == ClearPath) {
+            ChangeState(rx,ry,Obstacle);
+        } else {
+            while (GetState(rx,ry) != ClearPath) {
+                int rx = std::rand()%GetM();
+                int ry = std::rand()%GetN();
+                if (GetState(rx,ry) == ClearPath) {
+                    ChangeState(rx,ry,Obstacle);
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
 void Board::Write(std::ostream &os, writemode mode) const {
     if (mode == file) {
         os << GetM() << " " << GetN() << std::endl;

@@ -55,14 +55,14 @@ void BoardMakerFrontend::Menu(){
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
                 CreateNewMap(filename);
-                //Randomize(filename);
+                Randomize(filename);
                 break;  
             case '5':
                 /* Aleatorizar un mapa */
                 std::cout << "Se va a aleatorizar\n";
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
-                //Randomize(filename);
+                Randomize(filename);
                 break;
             case '6':
                 /* Ver listado de mapas */
@@ -70,9 +70,14 @@ void BoardMakerFrontend::Menu(){
                 break;
             case '7':
                 /* Borrar Mapa */
+                std::cout << "Introduzca el nombre del mapa a borrar: ";
+                std::cin >> filename;
+                CheckMap(filename);
+                DeleteMap(filename);
                 break;  
             case '8':
                 /* Salir */
+                std::cout << "Saliendo..." << std::endl;
                 break;
             default:
                 std::cerr << "Se ha introducido una opción incorrecta\n";
@@ -81,9 +86,13 @@ void BoardMakerFrontend::Menu(){
     } while (option != '8');
 }
 
-void BoardMakerFrontend::CreateNewMap(std::string FileName) {
+void BoardMakerFrontend::CreateNewMap(std::string filename) {
 
-    std::ifstream reader("boards/" + FileName);
+    if (!CheckName(filename)) {
+        return;
+    }
+
+    std::ifstream reader("boards/" + filename);
     if (reader) {
         std::cout << "El fichero ya existe\n"
                   << "¿Quiere sobreescribir? Seleccione [s]i [n]o: ";
@@ -103,10 +112,6 @@ void BoardMakerFrontend::CreateNewMap(std::string FileName) {
         } while (election != 's' && election != 'n');
         reader.close();
     }
-
-    if (!CheckName(FileName)) {
-        return;
-    }
        
     int height, wide;
     std::cout << "¿Qué anchura debe tener el tablero? ";
@@ -116,17 +121,16 @@ void BoardMakerFrontend::CreateNewMap(std::string FileName) {
     Board map(height,wide);
     
     std::ofstream mapfile;
-    mapfile.open("boards/" + FileName);
+    mapfile.open("boards/" + filename);
     map.Write(mapfile,file);
     mapfile.close();
 }
 
-void BoardMakerFrontend::ModifyMap(std::string FileName) {
-    std::cout << "Peté al principio de modify" << std::endl;
-    if (!CheckName(FileName)) {
+void BoardMakerFrontend::ModifyMap(std::string filename) {
+    if (!CheckName(filename)) {
         return;
     }
-    Board map("boards/" + FileName);
+    Board map("boards/" + filename);
     char option;
     do {
         std::cout << "Su matriz actualmente es una (" << map.GetM() << "x" << map.GetN() << ") y es asi: \n";
@@ -210,7 +214,7 @@ void BoardMakerFrontend::ModifyMap(std::string FileName) {
     } while (option != 'n');
 
     std::ofstream mapfile;
-    mapfile.open("boards/" + FileName); 
+    mapfile.open("boards/" + filename); 
     map.Write(mapfile,file);
     mapfile.close();
 }
@@ -276,6 +280,20 @@ void BoardMakerFrontend::CopyMap(std::string oldname, std::string newname) {
     destinyfile.close();
 }
 
+void BoardMakerFrontend::Randomize(std::string filename) {
+    if (!CheckName(filename)) {
+        return;
+    }
+    Board map("boards/" + filename);
+    int obstacles;
+    std::cout << "Introduzca cuantos obstáculos quiere: ";
+    std::cin >> obstacles;
+    map.ShuffleMap(obstacles);
+    std::ofstream mapfile;
+    mapfile.open("boards/" + filename);
+    map.Write(mapfile,file);
+}
+
 void BoardMakerFrontend::ListMaps() {
     DIR *dr = opendir("boards/");
     if (dr == NULL) { // opendir returns NULL if couldn't open directory 
@@ -283,10 +301,20 @@ void BoardMakerFrontend::ListMaps() {
         return; 
     }
     struct dirent *de;
+    std::ofstream mapfiles;
+    mapfiles.open("bin/maps.lst");
     while ((de = readdir(dr)) != NULL)  {
-        std::cout << de->d_name << std::endl;
+        std::string name(de->d_name);
+        if (name != "." && name != ".." )
+            mapfiles << name << std::endl;
     }
+    mapfiles.close();
+    system("less bin/maps.lst");
     closedir(dr);
+}
+
+void BoardMakerFrontend::DeleteMap(std::string filename) {
+    system(("rm -f boards/" + filename).c_str());
 }
 
 bool BoardMakerFrontend::CheckMap(std::string filename) {
