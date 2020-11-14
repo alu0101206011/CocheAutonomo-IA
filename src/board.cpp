@@ -153,7 +153,7 @@ void Board::Write(std::ostream &os, writemode mode) const {
                     os << GREEN;
                     break;
                 case Car:
-                    os << CYAN;
+                    os << MAGENTA;
                     break;
                 case Finish:
                     os << RED;
@@ -166,7 +166,7 @@ void Board::Write(std::ostream &os, writemode mode) const {
             }
             os << "\n";
         }
-        os << YELLOW << "(Espacio vacío) " << GREEN << "(Obstáculo) " << CYAN << "(Coche) " << RED << "(Meta) " << WHITE << "(Error) " << RESET << std::endl;
+        os << YELLOW << "(Espacio vacío) " << GREEN << "(Obstáculo) " << MAGENTA << "(Coche) " << RED << "(Meta) " << WHITE << "(Error) " << RESET << std::endl;
     } else {
         os << "Write mode is invalid or something went wrong";
     }
