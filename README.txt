@@ -1,5 +1,5 @@
-# IA-P1
-## ¿Cómo ejecutar programa IA-P1?
+IA-P1
+¿Cómo ejecutar programa IA-P1?
 
 Tenemos que encontrarnos en la carpeta `IA-P1/`   
 
@@ -18,4 +18,3 @@ tendrían que hacer nada más.
 Si prefieren solo compilar, se puede hacer con un simple `make`.     
 El comando para ejecutar el código es:     
 `./bin/Board_Test`
-
