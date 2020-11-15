@@ -110,7 +110,7 @@ void BoardMakerFrontend::Menu(){
                 break;
         }
         std::cout << std::endl;
-    } while (option != '9');
+    } while (option != '0');
 }
 
 void BoardMakerFrontend::CreateNewMap(std::string filename) {
@@ -313,9 +313,11 @@ void BoardMakerFrontend::Randomize(std::string filename) {
         return;
     }
     Board map("boards/" + filename);
+    map.ClearMap();
     int obstacles;
     std::cout << "Introduzca el porcentaje de obstáculos que quiere: ";
     std::cin >> obstacles;
+    obstacles = map.GetM() * map.GetN() * obstacles / 100;
     map.ShuffleMap(obstacles);
     std::ofstream mapfile;
     mapfile.open("boards/" + filename);

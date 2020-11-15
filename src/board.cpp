@@ -190,4 +190,12 @@ void Board::Write(std::ostream &os, writemode mode) const {
     }
 }
 
+void Board::ClearMap() {
+    for (int i = 0; i < GetM(); i++) { 
+        for (int j = 0; j < GetN(); j++) { 
+            ChangeState(i,j,ClearPath);
+        }
+    }
+}
+
 Board::~Board() { }
