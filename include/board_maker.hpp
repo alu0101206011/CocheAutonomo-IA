@@ -22,6 +22,7 @@ class BoardMakerFrontend {
     void ShowMap(std::string,std::ostream&);
     void ListMaps();
     void DeleteMap(std::string);
+    void ChangeWMode();
 
     private:
     bool CheckMap(std::string);

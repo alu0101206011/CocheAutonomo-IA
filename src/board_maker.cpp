@@ -20,7 +20,8 @@ void BoardMakerFrontend::Menu(){
         std::cout << "\t[6] Ver listado de mapas.\n";
         std::cout << "\t[7] Ver un mapa concreto.\n";
         std::cout << "\t[8] Borrar un mapa.\n";
-        std::cout << "\t[9] Salir.\n";
+        std::cout << "\t[9] Cambiar modo de visualización.\n";
+        std::cout << "\t[0] Salir.\n";
         std::cout << "Escoja una opcion: "; //Poner opciones
         std::cin >> option;
         system("clear");
@@ -86,6 +87,11 @@ void BoardMakerFrontend::Menu(){
                 DeleteMap(filename);
                 break;  
             case '9':
+                /* Salir */
+                std::cout << "Se va escoger el modo de visualización";
+                ChangeWMode();
+                break;
+            case '0':
                 /* Salir */
                 std::cout << "Saliendo..." << std::endl;
                 break;
@@ -298,7 +304,7 @@ void BoardMakerFrontend::Randomize(std::string filename) {
     }
     Board map("boards/" + filename);
     int obstacles;
-    std::cout << "Introduzca cuantos obstáculos quiere: ";
+    std::cout << "Introduzca el porcentaje de obstáculos que quiere: ";
     std::cin >> obstacles;
     map.ShuffleMap(obstacles);
     std::ofstream mapfile;
@@ -310,23 +316,7 @@ void BoardMakerFrontend::Randomize(std::string filename) {
 
 void BoardMakerFrontend::ShowMap(std::string filename, std::ostream& os) {
     Board map("boards/" + filename);
-    char option;
-    do {
-        std::cout << "¿Cómo desea ver el mapa?\n";
-        std::cout << "[i]conos ó [c]oordenadas: ";
-        std::cin >> option;
-        switch (option) {
-        case 'i':
-            map.Write(os, write_style_);
-            break;
-        case 'c':
-            map.Write(os, write_style_);
-            break;
-        default:
-            std::cout << "Se ha escogido una opción no válida" << std::endl;
-            break;
-        }
-    } while (option != 'i' && option != 'c');
+    
 }
 
 void BoardMakerFrontend::ListMaps() {
@@ -346,6 +336,26 @@ void BoardMakerFrontend::ListMaps() {
     mapfiles.close();
     system("less bin/maps.lst");
     closedir(dr);
+}
+
+void BoardMakerFrontend::ChangeWMode() {
+    char option;
+    do {
+        std::cout << "¿Cómo desea ver el mapa?\n";
+        std::cout << "[i]conos ó [c]oordenadas: ";
+        std::cin >> option;
+        switch (option) {
+        case 'i':
+            write_style_ = terminalicons;
+            break;
+        case 'c':
+            write_style_ = terminalcords;
+            break;
+        default:
+            std::cout << "Se ha escogido una opción no válida" << std::endl;
+            break;
+        }
+    } while (option != 'i' && option != 'c');
 }
 
 void BoardMakerFrontend::DeleteMap(std::string filename) {
