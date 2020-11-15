@@ -30,6 +30,7 @@ class Board {
     bool Valid;
     int M_; //Alto
     int N_; //Ancho
+    bool Car_, Finish_;
     MatrixState MatrixBoard_; 
 
 public:
@@ -41,6 +42,10 @@ public:
     
     int GetM() const;
     int GetN() const;
+    bool GetCar() const;
+    bool GetFinish() const;
+    void SetCar(bool);
+    void SetFinish(bool);
     state GetState(int,int) const;
     void ChangeState(int,int,state);
     void CheckMap();
