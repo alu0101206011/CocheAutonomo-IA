@@ -1,3 +1,16 @@
+/// Clase Board
+///
+/// @brief clase considerada "cerebro del coche autonomo". Aqui es donde 
+/// se desarolla el algoritmo de busqueda A* y las funciones heuristicas
+/// Euclidea y Manhattan
+///
+/// @date 15 Nov 2020
+/// 
+/// Autores: 
+/// Jorge Niebla Núñez <alu0101215457@ull.edu.es>
+/// Anabel Díaz Labrador <alu0101206011@ull.edu.es>
+/// Jaime Pablo Pérez Moro <alu0101278919@ull.edu.es>
+
 #include "board.hpp"
 #include <ctime>
 #include <chrono>
@@ -51,7 +64,7 @@ public:
     bool isUnBlocked(int, int);
     double CalculateHManhattan(int, int);
     double CalculateHEuclidean(int, int);
-    void tracePath(matrixCell&);
+    int tracePath(matrixCell&);
     bool AStarSearch(hMethod);
 
 };

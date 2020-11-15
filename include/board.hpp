@@ -1,3 +1,15 @@
+/// Clase Board
+///
+/// @brief clase que maneja un tablero de estados. Los estados
+/// pueden ser coche, final, obstaculo, casilla libre y camino.
+///
+/// @date 15 Nov 2020
+/// 
+/// Autores: 
+/// Jorge Niebla Núñez <alu0101215457@ull.edu.es>
+/// Anabel Díaz Labrador <alu0101206011@ull.edu.es>
+/// Jaime Pablo Pérez Moro <alu0101278919@ull.edu.es>
+
 #ifndef BOARD_HPP
 #define BOARD_HPP
 

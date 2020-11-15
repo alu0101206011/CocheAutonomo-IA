@@ -1,4 +1,4 @@
-#include "../include/gps.hpp"
+#include "../include/autonomous_car.hpp"
 #include <cmath>
 #include <cstring>
 #include <cfloat>
@@ -62,10 +62,10 @@ double GPS::CalculateHEuclidean(int i, int j) {
     return ((double)sqrt ((i - end_.first) * (i - end_.first) + (j - end_.second) * (j - end_.second)));
 }
 
-void GPS::tracePath(matrixCell& posDetails) {
+int GPS::tracePath(matrixCell& posDetails) {
     int row = end_.first;
     int col = end_.second;
-
+    int size_path = 0;
     std::stack<Pair> Path;
 
     while (!(posDetails[row][col].parent_i == row && posDetails[row][col].parent_j == col)) {
@@ -79,10 +79,12 @@ void GPS::tracePath(matrixCell& posDetails) {
     while (!Path.empty()) {
         Pair p = Path.top();
         Path.pop();
-        if (map_.GetState(p.first, p.second) != Car && map_.GetState(p.first, p.second) != Finish)
+        if (map_.GetState(p.first, p.second) != Car && map_.GetState(p.first, p.second) != Finish) {
             map_.ChangeState(p.first, p.second, state::Path);
+            size_path++;
+        }
     }
-    return;
+    return size_path;
 }
 
 bool GPS::AStarSearch(hMethod method) {
@@ -143,9 +145,9 @@ bool GPS::AStarSearch(hMethod method) {
                     posDetails[next_i][next_j].parent_j = j;
                     final_time = std::chrono::system_clock::now();
                     time_taken duration = final_time - initial_time; 
-                    tracePath(posDetails);
                     std::cout << "Duracion de la busqueda: " << duration.count() << "\n";
                     std::cout << "Número total de nodos creados: " << count << "\n";
+                    std::cout << "Longitud del camino minimo: " << tracePath(posDetails) << "\n" ;
                     return true;
                 } else if (!visited[next_i][next_j] && isUnBlocked(next_i, next_j)) {
                     gNew = posDetails[i][j].g + 1.0;

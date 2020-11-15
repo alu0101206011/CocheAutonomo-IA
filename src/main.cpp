@@ -1,6 +1,26 @@
+/// Universidad de La Laguna
+/// Escuela Superior de Ingeniería y Tecnología
+/// Grado en Ingeniería Informática
+/// Computabilidad y algoritmia
+///
+/// Autores: 
+/// Jorge Niebla Núñez <alu0101215457@ull.edu.es>
+/// Anabel Díaz Labrador <alu0101206011@ull.edu.es>
+/// Jaime Pablo Pérez Moro <alu0101278919@ull.edu.es>
+///
+/// @date 15 Nov 2020
+///
+/// @brief programa que utiliza desarolla mapas usando ficheros para utilizar
+/// funciones de busqueda teniendo un principio, un final y obstaculos.
+/// 
+/// @see https://es.wikipedia.org/wiki/Heur%C3%ADstica_admisible
+/// 
+/// To compile: make 
+/// To clean files: make clean
+
 #include "../include/board_maker.hpp"
 #include "../include/board.hpp"
-#include "../include/gps.hpp"
+#include "../include/autonomous_car.hpp"
 
 #include <iostream>
 
@@ -23,7 +43,7 @@ int main () {
                 write_mode_choose = terminalcords;
                 break;  
             default: 
-                std::cerr << "Se ha introducido una opción incorrecta\n\n";
+                std::cerr << "Se ha introducido una opcion incorrecta\n\n";
                 break;
         }
     } while(option != 's' && option != 'n');
@@ -31,7 +51,7 @@ int main () {
     system("clear");
     std::cout << "Necesita un mapa para empezar."
               << "Tiene diferentes opciones:\n"
-              << "\t[1] Entrar en el menú de creación de tableros.\n"
+              << "\t[1] Entrar en el menú de creacion de tableros.\n"
               << "\t[2] Seleccionar mapa para empezar la simulación.\n"
               << "\t[3] Salir.\n"
               << "Escoja una opcion: "; 
@@ -63,7 +83,7 @@ int main () {
                 map.Write(std::cout, write_mode_choose);
                 
                 GPS car(map);
-                std::cout << "¿Que función heuristica desea introducir?\n"
+                std::cout << "¿Que funcion heuristica desea introducir?\n"
                           << "\t[1] Euclidea.\n"
                           << "\t[2] Manhattan.\n"
                           << "Escoja una opcion: "; 
@@ -76,9 +96,9 @@ int main () {
                                 if (car.AStarSearch(Euclidean))
                                     std::cout << "Se ha encontrado una salida ->\n"; 
                                 else 
-                                    std::cout << "No se ha encontrado una salida!\n";
+                                    std::cout << "No se ha encontrado una salida valida.\n";
                             } else {
-                                std::cout << "Este mapa no tiene coche o final.\nSe cancela la búsqueda.\n";
+                                std::cout << "Este mapa no tiene coche o final.\nSe cancela la busqueda.\n";
                             }
                             break;
                         case '2':  
@@ -88,11 +108,11 @@ int main () {
                                 else 
                                 std::cout << "No se ha encontrado una salida!\n";   
                             } else {
-                                std::cout << "Este mapa no tiene coche o final.\nSe cancela la búsqueda.\n";
+                                std::cout << "Este mapa no tiene coche o final.\nSe cancela la busqueda.\n";
                             }      
                             break;
                         default:
-                            std::cout << "Se ha escogido una opción no válida" << std::endl;
+                            std::cout << "Se ha escogido una opción no valida" << std::endl;
                             break;
                     }
                 } while (option != '1' && option != '2');
@@ -116,5 +136,6 @@ int main () {
                 break;
         }
     } while (option != 3);
+    
     return 0;
 }

@@ -181,7 +181,7 @@ void BoardMakerFrontend::CreateNewMap(std::string filename) {
     std::cin >> param;
     if (!isdigit(param)) {
         do {
-            std::cout << "Introduzca una altura válida para el tablero: ";
+            std::cout << "Introduzca una altura valida para el tablero: ";
             std::cin >> param;
         } while (!isdigit(param));
     }
@@ -190,7 +190,7 @@ void BoardMakerFrontend::CreateNewMap(std::string filename) {
     std::cin >> param;
     if (!isdigit(param)) {
         do {
-            std::cout << "Introduzca una altura válida para el tablero: ";
+            std::cout << "Introduzca una altura valida para el tablero: ";
             std::cin >> param;
         } while (!isdigit(param));
     }
@@ -224,7 +224,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                 for (int i = 0; i < map.GetM(); i++) { 
                     for (int j = 0; j < map.GetN(); j++) { 
                         if (map.GetState(i,j) == Car && !car_exist) {
-                            std::cout << "Ya existe un coche. Se encuentra en la posición (" << i << "," << j << ")" << std::endl;
+                            std::cout << "Ya existe un coche. Se encuentra en la posicion (" << i << "," << j << ")" << std::endl;
                             std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
                             char election = '\0';
                             std::cin >> election;
@@ -239,7 +239,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                                     car_exist = true;
                                     break;
                                 default:
-                                    std::cout << "\nSe ha escogido una opción no válida" << std::endl;
+                                    std::cout << "\nSe ha escogido una opción no valida" << std::endl;
                                     break;
                                 }
                             } while (election != 's' && election != 'n');
@@ -252,7 +252,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                 }
             case 'o':
                 std::cout << "Ha entrado en obstaculo.\n";
-                std::cout << "¿Dónde desea introducir el obstáculo?" << std::endl;
+                std::cout << "¿Dónde desea introducir el obstaculo?" << std::endl;
                 IntroducePos(Obstacle,map);
                 break;
             case 's':
@@ -262,7 +262,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                 for (int i = 0; i < map.GetM(); i++) { 
                     for (int j = 0; j < map.GetN(); j++) {
                         if (map.GetState(i,j) == Finish && !finish_exist) {
-                            std::cout << "Ya existe una salida. Se encuentra en la posición (" << i << "," << j << ")" << std::endl;
+                            std::cout << "Ya existe una salida. Se encuentra en la posicion (" << i << "," << j << ")" << std::endl;
                             std::cout << "¿Desea modificarlo? Seleccione [s]i [n]o: ";
                             char election;
                             std::cin >> election;
@@ -278,7 +278,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                                     finish_exist = true;
                                     break;
                                 default:
-                                    std::cout << "\nSe ha escogido una opción no válida" << std::endl;
+                                    std::cout << "\nSe ha escogido una opcion no valida" << std::endl;
                                     break;
                                 }
                             } while (election != 's' && election != 'n');
@@ -291,7 +291,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                 break;
             case 'e':
                 std::cout << "Ha entrado en eliminar.\n";
-                std::cout << "¿Qué posición desea eliminar?\n";
+                std::cout << "¿Qué posicion desea eliminar?\n";
                 IntroducePos(ClearPath,map);
                 break;
             case 'n':
@@ -313,11 +313,11 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
     int x, y;
     char param;
     do {
-        std::cout << "Posición X: ";
+        std::cout << "Posicion X: ";
         std::cin >> param;
         do {
             if (!std::isdigit(param)) {
-                std::cout << "\nSe a introducido una opción no válida" << std::endl;
+                std::cout << "\nSe a introducido una opción no valida" << std::endl;
                 std::cout << "Introduzca la posición X otra vez: ";
                 std::cin >> param;
             }
@@ -335,8 +335,8 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
         y = (int)(param - '0');
         if ((x < 0) || (y < 0) || (x >= (map.GetM())) || (y >= (map.GetN())))
             std::cerr << "La posición tiene que estar entre:\n"
-                      << "x = [0] a [" << map.GetN() - 1 << "]\n" 
-                      << "y = [0] a [" << map.GetM() - 1 << "]\n";
+                      << "x = [0] a [" << map.GetM() - 1 << "]\n" 
+                      << "y = [0] a [" << map.GetN() - 1 << "]\n";
     } while (x < 0 || y < 0 || x > (map.GetM() - 1) || y > (map.GetN() - 1));
     if (map.GetState(x,y) != ClearPath) {
         std::cout << "La posición indicada está ocupada por ";
