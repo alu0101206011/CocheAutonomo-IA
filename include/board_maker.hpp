@@ -5,9 +5,11 @@
 #include <dirent.h> 
 #include "board.hpp"
 
-class BoardMakerFrontend {    
+class BoardMakerFrontend {   
     
     public:
+    writemode write_style_; 
+
     BoardMakerFrontend();
     ~BoardMakerFrontend();
 

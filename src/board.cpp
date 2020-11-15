@@ -131,6 +131,9 @@ void Board::Write(std::ostream &os, writemode mode) const {
                 case Finish:
                     os << "🏁";
                     break;
+                case Path:
+                    os << "🟩";
+                    break;
                 default:
                     os << "❓";
                     break;
@@ -162,6 +165,8 @@ void Board::Write(std::ostream &os, writemode mode) const {
                 case Finish:
                     os << RED;
                     break;
+                case Path:
+                    os << BLUE;
                 default:
                     os << WHITE;
                     break;

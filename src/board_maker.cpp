@@ -4,22 +4,23 @@ BoardMakerFrontend::BoardMakerFrontend() {}
 BoardMakerFrontend::~BoardMakerFrontend() {}
 
 
+
 void BoardMakerFrontend::Menu(){
     std::string file;
     char option;
     system("clear");
     do {
         std::cout << "Bienvenido al menú de creación de tableros.\n";
-        std::cout << "Hay diferentes opciones\n"; //Poner opciones
-        std::cout << "[1] Crear un nuevo mapa vacío\n";
-        std::cout << "[2] Modificar un mapa existente\n";
-        std::cout << "[3] Modificar una copia de un mapa existente\n";
-        std::cout << "[4] Crear un mapa aleatorio\n";
-        std::cout << "[5] Aleatorizar un mapa\n";
-        std::cout << "[6] Ver listado de mapas\n";
-        std::cout << "[7] Ver un mapa concreto\n";
-        std::cout << "[8] Borrar un mapa\n";
-        std::cout << "[9] Salir\n";
+        std::cout << "Hay diferentes opciones:\n"; //Poner opciones
+        std::cout << "\t[1] Crear un nuevo mapa vacío.\n";
+        std::cout << "\t[2] Modificar un mapa existente.\n";
+        std::cout << "\t[3] Modificar una copia de un mapa existente.\n";
+        std::cout << "\t[4] Crear un mapa aleatorio.\n";
+        std::cout << "\t[5] Aleatorizar un mapa.\n";
+        std::cout << "\t[6] Ver listado de mapas.\n";
+        std::cout << "\t[7] Ver un mapa concreto.\n";
+        std::cout << "\t[8] Borrar un mapa.\n";
+        std::cout << "\t[9] Salir.\n";
         std::cout << "Escoja una opcion: "; //Poner opciones
         std::cin >> option;
         system("clear");
@@ -143,8 +144,9 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
     Board map("boards/" + filename);
     char option;
     do {
+        system("clear");
         std::cout << "Su matriz actualmente es una (" << map.GetM() << "x" << map.GetN() << ") y es asi: \n";
-        map.Write(std::cout, terminalcords);
+        map.Write(std::cout, write_style_);
         std::cout << "¿Qué desea introducir? [c]oche [o]bstaculo [s]alida [n]ada\n";
         std::cin >> option;
 
@@ -216,6 +218,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                 IntroducePos(Finish, map); 
                 }
             case 'n':
+                system("clear");
                 break;
             default:
                 std::cout << "Argumento invalido: escriba 'c' 'o' 'n' si quiere coche, obstaculo o nada\n";
@@ -281,9 +284,9 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
 
 void BoardMakerFrontend::CopyMap(std::string oldname, std::string newname) {
     std::ifstream sourcefile;
-    sourcefile.open(oldname, std::ios::binary);
+    sourcefile.open("boards/" + oldname, std::ios::binary);
     std::ofstream destinyfile;
-    destinyfile.open(newname, std::ios::binary);
+    destinyfile.open("boards/" + newname, std::ios::binary);
     destinyfile << sourcefile.rdbuf();
     sourcefile.close();
     destinyfile.close();
@@ -301,7 +304,7 @@ void BoardMakerFrontend::Randomize(std::string filename) {
     std::ofstream mapfile;
     mapfile.open("boards/" + filename);
     map.Write(mapfile,file);
-    map.Write(std::cout,terminalicons);
+    map.Write(std::cout,write_style_);
     mapfile.close();
 }
 
@@ -314,10 +317,10 @@ void BoardMakerFrontend::ShowMap(std::string filename, std::ostream& os) {
         std::cin >> option;
         switch (option) {
         case 'i':
-            map.Write(os, terminalicons);
+            map.Write(os, write_style_);
             break;
         case 'c':
-            map.Write(os, terminalcords);
+            map.Write(os, write_style_);
             break;
         default:
             std::cout << "Se ha escogido una opción no válida" << std::endl;

@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -g -Wall --std=c++17
-OBJ = ./obj/board.o ./obj/board_maker.o ./obj/car.o ./obj/main.o
+OBJ = ./obj/board.o ./obj/board_maker.o ./obj/gps.o ./obj/main.o
 EXEC = Board_Test
 
 all: $(OBJ)
