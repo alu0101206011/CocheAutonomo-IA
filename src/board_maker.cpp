@@ -176,25 +176,25 @@ void BoardMakerFrontend::CreateNewMap(std::string filename) {
     }
        
     int height, wide;
-    char param;
+    std::string param;
     std::cout << "¿Qué altura debe tener el tablero? ";
     std::cin >> param;
-    if (!isdigit(param)) {
+    if (!isdigit(param[0])) {
         do {
             std::cout << "Introduzca una altura valida para el tablero: ";
             std::cin >> param;
-        } while (!isdigit(param));
+        } while (!isdigit(param[0]));
     }
-    height = (int)(param - '0');
+    height = stoi(param);
     std::cout << "¿Qué anchura debe tener el tablero? ";
     std::cin >> param;
-    if (!isdigit(param)) {
+    if (!isdigit(param[0])) {
         do {
             std::cout << "Introduzca una altura valida para el tablero: ";
             std::cin >> param;
-        } while (!isdigit(param));
+        } while (!isdigit(param[0]));
     }
-    wide = (int)(param - '0');
+    wide = stoi(param);
     Board map(height,wide);
     
     std::ofstream mapfile;
@@ -311,28 +311,28 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
 
 void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
     int x, y;
-    char param;
+    std::string param;
     do {
         std::cout << "Posicion X: ";
         std::cin >> param;
         do {
-            if (!std::isdigit(param)) {
+            if (!std::isdigit(param[0])) {
                 std::cout << "\nSe a introducido una opción no valida" << std::endl;
                 std::cout << "Introduzca la posición X otra vez: ";
                 std::cin >> param;
             }
-        } while (!std::isdigit(param));
-        x = (int)(param - '0');
+        } while (!std::isdigit(param[0]));
+        x = stoi(param);
         std::cout << "Posición Y: ";
         std::cin >> param;
         do {
-            if (!std::isdigit(param)) {
+            if (!std::isdigit(param[0])) {
                 std::cout << "\nSe a introducido una opción no válida" << std::endl;
                 std::cout << "Introduzca la posición Y otra vez: ";
                 std::cin >> param;
             } 
-        } while (!std::isdigit(param));
-        y = (int)(param - '0');
+        } while (!std::isdigit(param[0]));
+        y = stoi(param);
         if ((x < 0) || (y < 0) || (x >= (map.GetM())) || (y >= (map.GetN())))
             std::cerr << "La posición tiene que estar entre:\n"
                       << "x = [0] a [" << map.GetM() - 1 << "]\n" 
