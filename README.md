@@ -19,6 +19,7 @@ Si prefieren solo compilar, se puede hacer con un simple `make`.
 ```bash
 $ cd ~
 $ git clone https://github.com/JorNiebla/IA-P1.git
+$ cd IA-P1
 $ make run
 ```
 
