@@ -1,10 +1,13 @@
 #include "board.hpp"
+#include <ctime>
+#include <chrono>
 
 struct cell;
 
 typedef std::pair<int, int> Pair;
 typedef std::pair<double, Pair> pPair;
 typedef std::vector<std::vector<cell> > matrixCell;
+typedef std::chrono::duration<double> time_taken;
 
 enum hMethod {Manhattan, Euclidean};
 enum direction_t {N, E, S, W};
@@ -49,6 +52,6 @@ public:
     double CalculateHManhattan(int, int);
     double CalculateHEuclidean(int, int);
     void tracePath(matrixCell&);
-    void AStarSearch(hMethod);
+    bool AStarSearch(hMethod);
 
 };

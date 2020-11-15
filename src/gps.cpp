@@ -85,7 +85,8 @@ void GPS::tracePath(matrixCell& posDetails) {
     return;
 }
 
-void GPS::AStarSearch(hMethod method) {
+bool GPS::AStarSearch(hMethod method) {
+    std::chrono::time_point<std::chrono::system_clock> initial_time, final_time;
     int i, j;
     int ROW = map_.GetM();
     int COL = map_.GetN();
@@ -120,6 +121,7 @@ void GPS::AStarSearch(hMethod method) {
     std::set<pPair> optimalPos;
     optimalPos.insert(std::make_pair(0.0, std::make_pair(i, j)));
 
+    initial_time = std::chrono::system_clock::now();
     while (!optimalPos.empty()) {
         pPair p = *optimalPos.begin();
         optimalPos.erase(optimalPos.begin());
@@ -138,9 +140,11 @@ void GPS::AStarSearch(hMethod method) {
                 if (map_.GetState(next_i, next_j) == Finish) {
                     posDetails[next_i][next_j].parent_i = i;
                     posDetails[next_i][next_j].parent_j = j;
-                    std::cout << "Encontrao!!!\n";
+                    final_time = std::chrono::system_clock::now();
+                    time_taken duration = final_time - initial_time; 
                     tracePath(posDetails);
-                    return;
+                    std::cout << "Duracion de la busqueda: " << duration.count() << "\n";
+                    return true;
                 } else if (!visited[next_i][next_j] && isUnBlocked(next_i, next_j)) {
                     gNew = posDetails[i][j].g + 1.0;
                     if (method == Manhattan)
@@ -162,5 +166,8 @@ void GPS::AStarSearch(hMethod method) {
             }
         }
     }
-    std::cout << "No encontrao!!!\n";
+    final_time = std::chrono::system_clock::now();
+    time_taken duration = final_time - initial_time;
+    std::cout << "Duracion de la busqueda: " << duration.count() << "\n";
+    return false;
 }

@@ -196,6 +196,8 @@ void Board::ClearMap() {
             ChangeState(i,j,ClearPath);
         }
     }
+    Car_ = false;
+    Finish_ = false;
 }
 
 Board::~Board() { }

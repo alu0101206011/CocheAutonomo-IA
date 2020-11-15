@@ -5,14 +5,14 @@
 #include <iostream>
 
 int main () {
-    system("clear");
     char option;
     bool terminal_icons;
     writemode write_mode_choose;
-    std::cout << "Bienvenido al simulador de coche autonomo.\n"
-              << "Para empezar, ¿desea ver iconos en la terminal? Seleccione [s]i o [n]o\n";
-    std::cin >> option;
     do {
+        system("clear");
+        std::cout << "Bienvenido al simulador de coche autonomo.\n"
+                << "Para empezar, ¿desea ver iconos en la terminal? Seleccione [s]i o [n]o\n";
+        std::cin >> option;
         switch (option) {
             case 's': 
                 terminal_icons = true;
@@ -27,8 +27,8 @@ int main () {
                 break;
         }
     } while(option != 's' && option != 'n');
-    system("clear");
     do {
+    system("clear");
     std::cout << "Necesita un mapa para empezar."
               << "Tiene diferentes opciones:\n"
               << "\t[1] Entrar en el menú de creación de tableros.\n"
@@ -68,13 +68,20 @@ int main () {
                           << "\t[2] Manhattan.\n"
                           << "Escoja una opcion: "; 
                 std::cin >> option;
+                system("clear");
                 do {
                     switch (option) {
                         case '1':
-                            car.AStarSearch(Euclidean);            
+                            if (car.AStarSearch(Euclidean))
+                                std::cout << "Se ha encontrado una salida ->\n"; 
+                            else 
+                                std::cout << "No se ha encontrado una salida!\n";
                             break;
-                        case '2':
-                            car.AStarSearch(Manhattan);            
+                        case '2':  
+                            if (car.AStarSearch(Manhattan))
+                                std::cout << "Se ha encontrado una salida ->\n"; 
+                            else 
+                                std::cout << "No se ha encontrado una salida!\n";         
                             break;
                         default:
                             std::cout << "Se ha escogido una opción no válida" << std::endl;
@@ -83,8 +90,8 @@ int main () {
                 } while (option != '1' && option != '2');
                 car.get_map().Write(std::cout, write_mode_choose);
                 std::cout << "\nPress enter to continue."
-                << "\n------------------------------------------------------------------------------------------\n"; 
-                std::cin.ignore();
+                          << "\n------------------------------------------------------------------------------------------\n";
+                std::cin.ignore(); 
                 std::cin.get();
                 system("clear");
                 }
@@ -94,6 +101,10 @@ int main () {
                 return 0;
             default:
                 std::cerr << "Se ha introducido una opción incorrecta\n\n";
+                std::cout << "\nPress enter to continue."
+                          << "\n------------------------------------------------------------------------------------------\n";
+                std::cin.ignore();
+                std::cin.get();
                 break;
         }
     } while (option != 3);
