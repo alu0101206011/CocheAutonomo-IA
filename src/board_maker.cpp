@@ -4,7 +4,6 @@ BoardMakerFrontend::BoardMakerFrontend() {}
 BoardMakerFrontend::~BoardMakerFrontend() {}
 
 
-
 void BoardMakerFrontend::Menu(){
     std::string file;
     char option;
@@ -16,7 +15,7 @@ void BoardMakerFrontend::Menu(){
         std::cout << "\t[2] Modificar un mapa existente.\n";
         std::cout << "\t[3] Modificar una copia de un mapa existente.\n";
         std::cout << "\t[4] Crear un mapa aleatorio.\n";
-        std::cout << "\t[5] Aleatorizar un mapa.\n";
+        std::cout << "\t[5] Aleatorizar un mapa existente.\n";
         std::cout << "\t[6] Ver listado de mapas.\n";
         std::cout << "\t[7] Ver un mapa concreto.\n";
         std::cout << "\t[8] Borrar un mapa.\n";
@@ -38,6 +37,8 @@ void BoardMakerFrontend::Menu(){
             case '2':
                 /* Modificar Mapa */
                 std::cout << "Se va a modifcar un mapa\n";
+                std::cout << "Mapas disponibles: \n";
+                system("ls boards/");
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
                 ModifyMap(filename);
@@ -45,6 +46,8 @@ void BoardMakerFrontend::Menu(){
             case '3':
                 /* Modificar copia de un Mapa */
                 std::cout << "Se va a modifcar una copia de un mapa\n";
+                std::cout << "Mapas disponibles: \n";
+                system("ls boards/");
                 std::cout << "Introduzca el nombre del mapa a copiar: ";
                 std::cin >> filename;
                 std::cout << "Introduzca el nuevo nombre del mapa: ";
@@ -62,7 +65,9 @@ void BoardMakerFrontend::Menu(){
                 break;  
             case '5':
                 /* Aleatorizar un mapa */
-                std::cout << "Se va a aleatorizar\n";
+                std::cout << "Se va a aleatorizar un mapa\n";
+                std::cout << "Mapas disponibles: \n";
+                system("ls boards/");
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
                 Randomize(filename);
@@ -74,12 +79,17 @@ void BoardMakerFrontend::Menu(){
             case '7':
                 /* Ver un mapa concreto */
                 std::cout << "Se va a ver un mapa concreto\n";
+                std::cout << "Mapas disponibles: \n";
+                system("ls boards/");
                 std::cout << "Introduzca el nombre del mapa: ";
                 std::cin >> filename;
                 ShowMap(filename,std::cout);
                 break;
             case '8':
                 /* Borrar Mapa */
+                std::cout << "Se va a borrar un mapa\n";
+                std::cout << "Mapas disponibles: \n";
+                system("ls boards/");
                 std::cout << "Introduzca el nombre del mapa a borrar: ";
                 std::cin >> filename;
                 CheckMap(filename);

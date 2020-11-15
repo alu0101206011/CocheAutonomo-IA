@@ -9,6 +9,8 @@ Board::Board() {
 
 Board::Board(int M,int N) {
     Valid = false;
+    Car_ = false;
+    Finish_ = false;
     M_ = M;
     N_ = N;
     MatrixBoard_.resize(M_);
@@ -34,9 +36,11 @@ Board::Board(std::string filename) {
         for (int j = 0; j < N_; j++) {
             reader >> nstate;
             ChangeState(i,j,static_cast<state>(nstate));
+            if (static_cast<state>(nstate) == Car) Car_ = true;
+            else if (static_cast<state>(nstate) == Finish) Finish_ = true;
         }
     reader.close();
-}
+} 
 
 int Board::GetM() const {
     return M_;
@@ -44,6 +48,22 @@ int Board::GetM() const {
 
 int Board::GetN() const {
     return N_;
+}
+
+bool Board::GetCar() const {
+    return Car_;
+}
+
+bool Board::GetFinish() const {
+    return Finish_;
+}
+
+void Board::SetCar(bool NewCar) {
+    Car_ = NewCar;
+}
+
+void Board::SetFinish(bool NewFinish) {
+    Finish_ = NewFinish;
 }
 
 state Board::GetState(int x, int y) const {
@@ -57,23 +77,12 @@ void Board::ChangeState(int x, int y, state newstate) {
 void Board::ShuffleMap(int obstnum) {
     std::srand(time(NULL)); //Generamos una seed aleatoria
 
-    ChangeState(std::rand()%GetM(),std::rand()%GetN(),Car); //Random Car
+    if (!GetCar())
+        ChangeState(std::rand()%GetM(),std::rand()%GetN(),Car); //Random Car
 
-    int rx = std::rand()%GetM(); //Random Finish
-    int ry = std::rand()%GetN();
-    if (GetState(rx,ry) == ClearPath) {
-        ChangeState(rx,ry,Finish);
-    } else {
-        while (GetState(rx,ry) != ClearPath) {
-            int rx = std::rand()%GetM();
-            int ry = std::rand()%GetN();
-            if (GetState(rx,ry) == ClearPath) {
-                ChangeState(rx,ry,Finish);
-                break;
-            }
-        }
-    }
-
+    if (!GetFinish())
+        ChangeState(std::rand()%GetM(),std::rand()%GetN(),Finish);
+        
     for (int i = 0; i < obstnum; i++) { //Random obstacles
         int rx = std::rand()%GetM();
         int ry = std::rand()%GetN();
