@@ -122,6 +122,7 @@ bool GPS::AStarSearch(hMethod method) {
     optimalPos.insert(std::make_pair(0.0, std::make_pair(i, j)));
 
     initial_time = std::chrono::system_clock::now();
+    int count = 0;
     while (!optimalPos.empty()) {
         pPair p = *optimalPos.begin();
         optimalPos.erase(optimalPos.begin());
@@ -144,6 +145,7 @@ bool GPS::AStarSearch(hMethod method) {
                     time_taken duration = final_time - initial_time; 
                     tracePath(posDetails);
                     std::cout << "Duracion de la busqueda: " << duration.count() << "\n";
+                    std::cout << "Número total de nodos creados: " << count << "\n";
                     return true;
                 } else if (!visited[next_i][next_j] && isUnBlocked(next_i, next_j)) {
                     gNew = posDetails[i][j].g + 1.0;
@@ -161,6 +163,7 @@ bool GPS::AStarSearch(hMethod method) {
                         posDetails[next_i][next_j].h = hNew;
                         posDetails[next_i][next_j].parent_i = i;
                         posDetails[next_i][next_j].parent_j = j;
+                        count++;
                     }
                 }
             }
@@ -169,5 +172,6 @@ bool GPS::AStarSearch(hMethod method) {
     final_time = std::chrono::system_clock::now();
     time_taken duration = final_time - initial_time;
     std::cout << "Duracion de la busqueda: " << duration.count() << "\n";
+    std::cout << "Número total de nodos creados: " << count << "\n";
     return false;
 }

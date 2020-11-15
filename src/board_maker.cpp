@@ -156,30 +156,45 @@ void BoardMakerFrontend::CreateNewMap(std::string filename) {
 
     std::ifstream reader("boards/" + filename);
     if (reader) {
-        std::cout << "El fichero ya existe\n"
-                  << "¿Quiere sobreescribir? Seleccione [s]i [n]o: ";
         char election;
-        std::cin >> election;
         do {
+            std::cout << "El fichero ya existe\n"
+                    << "¿Quiere sobreescribir? Seleccione [s]i [n]o: ";
+            std::cin >> election;            
             switch (election) {
-            case 's':
-                break;
-            case 'n':
-                reader.close();
-                return;
-            default:
-                std::cout << "Se ha escogido una opción no válida" << std::endl;
-                break;
+                case 's':
+                    break;
+                case 'n':
+                    reader.close();
+                    return;
+                default:
+                    std::cout << "\nSe ha escogido una opción no válida" << std::endl;
+                    break;
             }
         } while (election != 's' && election != 'n');
        reader.close();
     }
        
     int height, wide;
+    char param;
     std::cout << "¿Qué altura debe tener el tablero? ";
-    std::cin >> height;
+    std::cin >> param;
+    if (!isdigit(param)) {
+        do {
+            std::cout << "Introduzca una altura válida para el tablero: ";
+            std::cin >> param;
+        } while (!isdigit(param));
+    }
+    height = (int)(param - '0');
     std::cout << "¿Qué anchura debe tener el tablero? ";
-    std::cin >> wide;
+    std::cin >> param;
+    if (!isdigit(param)) {
+        do {
+            std::cout << "Introduzca una altura válida para el tablero: ";
+            std::cin >> param;
+        } while (!isdigit(param));
+    }
+    wide = (int)(param - '0');
     Board map(height,wide);
     
     std::ofstream mapfile;
@@ -224,7 +239,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                                     car_exist = true;
                                     break;
                                 default:
-                                    std::cout << "Se ha escogido una opción no válida" << std::endl;
+                                    std::cout << "\nSe ha escogido una opción no válida" << std::endl;
                                     break;
                                 }
                             } while (election != 's' && election != 'n');
@@ -263,7 +278,7 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
                                     finish_exist = true;
                                     break;
                                 default:
-                                    std::cout << "Se ha escogido una opción no válida" << std::endl;
+                                    std::cout << "\nSe ha escogido una opción no válida" << std::endl;
                                     break;
                                 }
                             } while (election != 's' && election != 'n');
@@ -296,21 +311,28 @@ void BoardMakerFrontend::ModifyMap(std::string filename) {
 
 void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
     int x, y;
+    char param;
     do {
         std::cout << "Posición X: ";
-        std::cin >> x;
-        if (std::cin.fail()) {
-            std::cout << "Se a introducido una opción no válida" << std::endl;
-            std::cout << "Introduzca la posición X otra vez: ";
-            std::cin >> x;
-        }
+        std::cin >> param;
+        do {
+            if (!std::isdigit(param)) {
+                std::cout << "\nSe a introducido una opción no válida" << std::endl;
+                std::cout << "Introduzca la posición X otra vez: ";
+                std::cin >> param;
+            }
+        } while (!std::isdigit(param));
+        x = (int)(param - '0');
         std::cout << "Posición Y: ";
-        std::cin >> y;
-        if (std::cin.fail()) {
-            std::cout << "Se a introducido una opción no válida" << std::endl;
-            std::cout << "Introduzca la posición Y otra vez: ";
-            std::cin >> x;
-        }
+        std::cin >> param;
+        do {
+            if (!std::isdigit(param)) {
+                std::cout << "\nSe a introducido una opción no válida" << std::endl;
+                std::cout << "Introduzca la posición Y otra vez: ";
+                std::cin >> param;
+            } 
+        } while (!std::isdigit(param));
+        y = (int)(param - '0');
         if ((x < 0) || (y < 0) || (x >= (map.GetM())) || (y >= (map.GetN())))
             std::cerr << "La posición tiene que estar entre:\n"
                       << "x = [0] a [" << map.GetN() - 1 << "]\n" 
@@ -336,7 +358,7 @@ void BoardMakerFrontend::IntroducePos(state newstate, Board& map) {
                 std::cout << "Ha elegido no sobrescribir\n";
                 return;
             default:
-                std::cout << "Se ha escogido una opción no válida" << std::endl;
+                std::cout << "\nSe ha escogido una opción no válida" << std::endl;
                 break;
             }
         } while (election != 's' && election != 'n');
@@ -410,7 +432,7 @@ void BoardMakerFrontend::ChangeWMode() {
             write_style_ = terminalcords;
             break;
         default:
-            std::cout << "Se ha escogido una opción no válida" << std::endl;
+            std::cout << "\nSe ha escogido una opción no válida" << std::endl;
             break;
         }
     } while (option != 'i' && option != 'c');

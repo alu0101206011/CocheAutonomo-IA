@@ -72,16 +72,24 @@ int main () {
                 do {
                     switch (option) {
                         case '1':
-                            if (car.AStarSearch(Euclidean))
-                                std::cout << "Se ha encontrado una salida ->\n"; 
-                            else 
-                                std::cout << "No se ha encontrado una salida!\n";
+                            if (car.get_map().GetFinish() && car.get_map().GetCar()) {
+                                if (car.AStarSearch(Euclidean))
+                                    std::cout << "Se ha encontrado una salida ->\n"; 
+                                else 
+                                    std::cout << "No se ha encontrado una salida!\n";
+                            } else {
+                                std::cout << "Este mapa no tiene coche o final.\nSe cancela la búsqueda.\n";
+                            }
                             break;
                         case '2':  
-                            if (car.AStarSearch(Manhattan))
-                                std::cout << "Se ha encontrado una salida ->\n"; 
-                            else 
-                                std::cout << "No se ha encontrado una salida!\n";         
+                            if (car.get_map().GetFinish() && car.get_map().GetCar()) {
+                                if (car.AStarSearch(Manhattan))
+                                    std::cout << "Se ha encontrado una salida ->\n"; 
+                                else 
+                                std::cout << "No se ha encontrado una salida!\n";   
+                            } else {
+                                std::cout << "Este mapa no tiene coche o final.\nSe cancela la búsqueda.\n";
+                            }      
                             break;
                         default:
                             std::cout << "Se ha escogido una opción no válida" << std::endl;
