@@ -16,13 +16,6 @@ y el ejecutable de la carpeta bin, se generarán unos ".o" nuevos, se creará un
 tendrían que hacer nada más.
 Si prefieren solo compilar, se puede hacer con un simple `make`. 
 
-```bash
-$ cd ~
-$ git clone https://github.com/JorNiebla/IA-P1.git
-$ cd IA-P1
-$ make run
-```
-
 #### Precaución
 
 El programa está pensado para que se ejecute desde la carpeta del proyecto, bien con `bin/Board_Test` o con `make run`
